@@ -7,7 +7,6 @@ import com.daou.test.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 
 @Service
@@ -18,8 +17,7 @@ public class DbTest {
 
     private final TimeCheck timeCheck;
 
-    @Transactional
-    public void redisInsertTest(long len){
+    public Long redisInsertTest(long len){
         timeCheck.checkBefore();
         for(int i=1; i<=len; i++){
             UserRedis userRedis = new UserRedis();
@@ -27,21 +25,19 @@ public class DbTest {
             userRedis.setLocalDateTime(LocalDateTime.now());
             userRedisRepository.save(userRedis);
         }
-        System.out.print("Redis : ");
         timeCheck.checkAfter();
+        return timeCheck.getResultTime();
     }
-    @Transactional
-    public void JPAInsertTest(long len){
+    public Long mysqlInsertTest(long len){
         timeCheck.checkBefore();
         for(int i=1; i<=len; i++){
             User user = new User();
             user.setId(i);
             user.setLocalDateTime(LocalDateTime.now());
-            userRepository.save(user);
+            userRepository.saveAndFlush(user);
         }
-        System.out.print("JPA : ");
         timeCheck.checkAfter();
-        this.resetDB();
+        return timeCheck.getResultTime();
     }
 
     public void resetDB(){
