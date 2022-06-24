@@ -1,6 +1,5 @@
 package com.daou.test.controller;
 
-import com.daou.test.db.dto.UserDto;
 import com.daou.test.service.TestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,13 +14,13 @@ import java.util.Map;
 public class TestController {
     private final TestService testService;
     @GetMapping("/mysql")
-    public ResponseEntity<?> getMysqlTest(@RequestParam("id") long id) throws NoSuchFieldException {
+    public ResponseEntity<?> getMysqlTest(@RequestParam("id") long id){
 
         return new ResponseEntity<>(testService.getMysql(id),HttpStatus.OK);
     }
     //    redis 데이터 가져오기
     @GetMapping("/redis")
-    public ResponseEntity<?> getRedisTest(@RequestParam("id") long id) throws NoSuchFieldException{
+    public ResponseEntity<?> getRedisTest(@RequestParam("id") long id){
 
         return new ResponseEntity<>(testService.getRedis(id),HttpStatus.OK);
     }
