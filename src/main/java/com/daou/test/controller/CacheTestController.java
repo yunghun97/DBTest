@@ -18,8 +18,7 @@ public class CacheTestController {
 
     @GetMapping
     @Cacheable(key = "#id", value = "BoardDto", cacheManager = "redisCacheManager")
-    public ResponseEntity<?> getInfo(@RequestParam long id){
-
+    public BoardDto getInfo(@RequestParam long id){
         return cacheTestService.getInfo(id);
     }
 

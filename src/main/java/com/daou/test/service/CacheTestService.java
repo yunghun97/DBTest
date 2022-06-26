@@ -16,14 +16,14 @@ public class CacheTestService {
 
     private final BoardRepository boardRepository;
 
-    public ResponseEntity<?> getInfo(long id){
+    public BoardDto getInfo(long id){
         Board board = boardRepository.findById(id).orElse(null);
-        if(nullCheck(board)) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        BoardDto boardDto = BoardDto.convert(board);
-        return new ResponseEntity<>(boardDto,HttpStatus.OK);
+        System.out.println("서비스단 실행");
+        if(nullCheck(board)) return null;
+        return BoardDto.convert(board);
     }
     public ResponseEntity<?> postInfo(long id, BoardDto boardDto){
-        Board board = Board.builder().id(id).title(boardDto.getTitle()).content(boardDto.getContent()).createdTime(LocalDateTime.now()).build();
+        Board board = Board.builder().id(id).title(boardDto.getTitle()).content(boardDto.getContent()).build();
         BoardDto resultBoardDto = BoardDto.convert(boardRepository.save(board));
         if(nullCheck(resultBoardDto)) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         else return new ResponseEntity<>(resultBoardDto,HttpStatus.OK);
